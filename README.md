@@ -24,6 +24,14 @@ Under `src/app`. NextJS uses file directory navigation: `src/app/home/page.tsx` 
 
 Under `public` dir. For global assets (used in multiple pages), keep under `public`. For individual pages, under `public/<page>`. e.g. `public/authenticate` holds assets for the auth page.
 
+### Components
+
+Under `src/components`. Global components (used in multiple pages) are kept under `components`. Individual page components are kept under `components/<page>`.
+
+### Type Docs
+
+Under `types`
+
 ## References/Docs/Resources
 
 - TailwindCSS: [https://tailwindcss.com/docs/styling-with-utility-classes]
