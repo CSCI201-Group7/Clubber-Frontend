@@ -1,3 +1,5 @@
+@import
+url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -12,9 +14,14 @@
   --font-mono: var(--font-mono);
 
   --font-default: "Inter", sans-serif, "Roboto";
+  --font-inter: "Inter", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
 
   --color-white: #ffffff;
   --color-black: #000000;
+
+  --color-usc-cardinal-red: #990000;
+  --color-usc-gold: #FFCC00;
 
   --breakpoint-mobile: 460px;
   --breakpoint-tablet: 768px;

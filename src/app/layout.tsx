@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "./globals.css";
 
 export default function RootLayout({
     children,
@@ -8,12 +8,8 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <style>
-                    @import
-                    url(&apos;https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap&quot;);
-                </style>
             </head>
-            <body className={`antialiased`}>{children}</body>
+            <body className={`antialiased w-screen h-screen relative grid`}>{children}</body>
         </html>
     );
 }
