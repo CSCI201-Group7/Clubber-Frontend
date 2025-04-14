@@ -21,10 +21,10 @@
             }
         ],
         "paths": {
-            "@/components": ["./src/components"],
-            "@/*": ["./src/app/*"],
-            "@/assets": ["./public/*"],
-            "@/styles": ["./src/styles"]
+            "@/components/*": ["src/components/*"],
+            "@/app/*": ["src/app/*"],
+            "@/assets/*": ["public/assets/*"],
+            "@/styles/*": ["src/styles/*"]
         }
     },
     "include": [
