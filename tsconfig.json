@@ -24,7 +24,8 @@
             "@/components": ["./src/components"],
             "@/*": ["./src/app/*"],
             "@/assets": ["./public/*"],
-            "@/styles": ["./src/styles"]
+            "@/styles": ["./src/styles"],
+            "@/types": ["./src/types"]
         }
     },
     "include": [
