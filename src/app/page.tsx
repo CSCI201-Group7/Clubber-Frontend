@@ -28,18 +28,20 @@ export default function Home() {
                         <ClubRecommendationItem />
                     </div>
                 </div>
+
                 <div className="ReviewAndEvents w-full h-full flex flex-row justify-between items-start gap-2 p-2">
-                    <div className="Reviews w-full flex-1 h-full flex flex-col justify-start items-start gap-2">
+                    <div className="Reviews w-full max-w-2/3 grow h-full flex flex-col justify-start items-start gap-2">
                         <div className="text-[42px] font-roboto font-bold text-start text-black">
                             Reviews
                         </div>
-                        <div className="ReviewItem w-2/3 h-fit flex flex-row justify-start items-start gap-2">
+                        <div className="ReviewItem w-2/3 h-full flex flex-col justify-start items-start gap-2 outline-2 outline-gray-500 rounded-4xl">
                             {/* TODO: Add review items */}
-                            <ReviewItem />
+                            <ReviewItem reviewId={"1"} />
                         </div>
                     </div>
-                    <div className="Events w-1/3 flex-1 h-full flex flex-col justify-start items-start gap-2">
-                        <div className="text-[42px] font-roboto font-bold text-start text-black">
+
+                    <div className="Events w-1/3 max-w-1/3 shrink grow-0 h-full flex flex-col justify-start items-start gap-2">
+                        <div className="text-[42px] font-roboto text-start text-black">
                             Events
                         </div>
                         <div className="EventItem w-full h-fit flex flex-row justify-start items-start gap-2">
