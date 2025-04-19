@@ -1,6 +1,6 @@
 import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
 import EventItem from "@/components/home/EventItem";
-import ReviewItem from "@/components/home/ReviewItem";
+import ReviewItem_home from "@/components/home/ReviewItem_home";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +17,14 @@ export default function Home() {
                         height={40}
                     />
                 </Link>
+                <div className="flex items-center">
+                    <Link 
+                        href="/login" 
+                        className="text-usc-gold font-medium mx-4"
+                    >
+                        Sign In
+                    </Link>
+                </div>
             </div>
             <div className="BodySection w-full max-w-2/3 h-full flex-1 flex flex-col justify-start items-center bg-white overflow-y-scroll px-4 py-2">
                 <div className="ClubRecommendation w-full h-fit flex flex-col justify-start items-start gap-2 p-2">
@@ -34,9 +42,11 @@ export default function Home() {
                         <div className="text-[42px] font-roboto font-bold text-start text-black">
                             Reviews
                         </div>
-                        <div className="ReviewItem w-2/3 h-full flex flex-col justify-start items-start gap-2 outline-2 outline-gray-500 rounded-4xl">
-                            {/* TODO: Add review items */}
-                            <ReviewItem reviewId={"1"} />
+                        <div className="ReviewItems w-full h-full flex flex-col justify-start items-start gap-4">
+                            {/* Review items */}
+                            <ReviewItem_home reviewId={"1"} />
+                            <ReviewItem_home reviewId={"2"} />
+                            <ReviewItem_home reviewId={"3"} />
                         </div>
                     </div>
 
