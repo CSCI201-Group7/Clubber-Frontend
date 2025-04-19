@@ -22,7 +22,7 @@ Under `src/app`. NextJS uses file directory navigation: `src/app/home/page.tsx` 
 
 ### Assets
 
-Under `public` dir. For global assets (used in multiple pages), keep under `public`. For individual pages, under `public/<page>`. e.g. `public/authenticate` holds assets for the auth page.
+Under `public/assets` dir. For global assets (used in multiple pages), keep under `public/assets`. For individual pages, under `public/assets/<page>`. e.g. `public/assets/authenticate` holds assets for the auth page.
 
 ### Components
 
