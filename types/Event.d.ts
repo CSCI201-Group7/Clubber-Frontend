@@ -1,4 +1,4 @@
-interface Event {
+export interface Event {
     id: EventId;
     organizationId: OrganizationId;
     title: string;
@@ -8,4 +8,5 @@ interface Event {
     endTime: Date;
     rsvpLink: string;
     imageId: FileId;
+    attendees: number;
 }

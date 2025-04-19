@@ -1,6 +1,8 @@
 import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
 import EventItem from "@/components/home/EventItem";
 import ReviewItem from "@/components/home/ReviewItem";
+import EventItem_home from "@/components/home/EventItem_home";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -44,7 +46,9 @@ export default function Home() {
                         </div>
                         <div className="EventItem w-full h-fit flex flex-row justify-start items-start gap-2">
                             {/* TODO: Add event items */}
-                            <EventItem />
+                            <EventItem_home eventId={"1"} />
+                            <EventItem_home eventId={"2"} />
+                            <EventItem_home eventId={"3"} />
                         </div>
                     </div>
                 </div>
