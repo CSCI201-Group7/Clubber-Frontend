@@ -13,7 +13,7 @@ export default function EventItem_home({ eventId }: { eventId: string }) {
         startTime: new Date(),
         endTime: new Date(),
         rsvpLink: "https://www.usc.edu",
-        imageId: "https://via.placeholder.com/400x300" as FileId,
+        imageId: "https://placehold.co/20x20" as FileId,
         attendees: 8
     });
 
