@@ -79,6 +79,10 @@ export default function Signup() {
                             type="password"
                             required
                             value={confirmPassword}
+                            checked={
+                                confirmPassword.length > 0 &&
+                                confirmPassword === password
+                            }
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
@@ -88,7 +92,9 @@ export default function Signup() {
                     <button
                         form="signup-form"
                         className="w-full py-3 h-fit flex justify-center items-center cursor-pointer
-                        rounded-lg bg-usc-cardinal-red text-usc-gold text-xl font-bold font-roboto"
+                        rounded-lg bg-usc-cardinal-red text-usc-gold text-xl font-bold font-roboto
+                        hover:bg-usc-cardinal-light transition-colors duration-100
+                        active:bg-usc-cardinal-dark"
                         type="submit">
                         Sign Up
                     </button>
