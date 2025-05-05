@@ -6,9 +6,104 @@ import Link from "next/link";
 
 const info = [
   {
-    clubName: "test",
+    clubName: "test1",
+    description: "club short description",
+    rating: 4.5,
     category: "cultural",
     events: ["first gm", "second gm"],
+    reviews: [
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 4,
+      },
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 5,
+      },
+    ],
+    logo: "",
+  },
+  {
+    clubName: "test1",
+    description: "club short description",
+    rating: 5,
+    category: "cultural",
+    events: ["first gm", "second gm"],
+    reviews: [
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 4,
+      },
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 2.5,
+      },
+    ],
+    logo: "/assets/PrimaryMono-Gold.png",
+  },
+  {
+    clubName: "test1",
+    description: "club short description",
+    rating: 2,
+    category: "cultural",
+    events: ["first gm", "second gm"],
+    reviews: [
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 4,
+      },
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 2.5,
+      },
+    ],
+    logo: "/assets/PrimaryMono-Gold.png",
+  },
+  {
+    clubName: "test1",
+    description: "club short description",
+    rating: 2,
+    category: "cultural",
+    events: ["first gm", "second gm"],
+    reviews: [
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 4,
+      },
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 2.5,
+      },
+    ],
+    logo: "/assets/PrimaryMono-Gold.png",
+  },
+  {
+    clubName: "test1",
+    description: "club short description",
+    rating: 2,
+    category: "cultural",
+    events: ["first gm", "second gm"],
+    reviews: [
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 4,
+      },
+      {
+        title: "Review Title",
+        reviewDescription: "Review Description",
+        rate: 2.5,
+      },
+    ],
+    logo: "/assets/PrimaryMono-Gold.png",
   },
 ];
 
@@ -32,8 +127,11 @@ export default function Home() {
             Clubs
           </div>
           <div className="ClubRecommendationItem w-full h-fit flex flex-row justify-start items-start gap-2 overflow-x-scroll">
-            {/* TODO: Add club recommendation items */}
-            <ClubRecommendationItem />{" "}
+            {info.map((club, index) => (
+              <div key={index} className="flex-shrink-0">
+                <ClubRecommendationItem clubInfo={club} />
+              </div>
+            ))}
           </div>
         </div>
         <div className="ReviewAndEvents w-full h-full flex flex-row justify-between items-start gap-2 p-2">
