@@ -1,7 +1,6 @@
 "use client";
 
-import { CompactEncrypt } from "jose";
-import { ServerPublicKey } from "@/utilities/utilities";
+import { encrypt } from "@/utilities/utilities";
 import Form from "next/form";
 import Link from "next/link";
 import { useState } from "react";
@@ -92,7 +91,7 @@ export default function Signup() {
                     <button
                         form="signup-form"
                         className="w-full py-3 h-fit flex justify-center items-center cursor-pointer
-                        rounded-lg bg-usc-cardinal-red text-usc-gold text-xl font-bold font-roboto
+                        rounded-lg bg-usc-cardinal-red text-white text-xl font-bold font-roboto
                         hover:bg-usc-cardinal-light transition-colors duration-100
                         active:bg-usc-cardinal-dark"
                         type="submit">
@@ -114,21 +113,17 @@ export default function Signup() {
 }
 
 async function onSubmitSignup(formData: FormData) {
-    // const username = formData.get("username") as string;
-    // const email = formData.get("email") as string;
-    // const password = formData.get("password") as string;
-    // const confirmPassword = formData.get("confirmPassword") as string;
-    // console.log("Signup submitted:", {
-    //     username,
-    //     email,
-    //     password,
-    //     confirmPassword,
-    // });
-    // const encryptedPassword = await new CompactEncrypt(
-    //     new TextEncoder().encode(password)
-    // ).encrypt(ServerPublicKey);
-    // const encryptedEmail = await new CompactEncrypt(
-    //     new TextEncoder().encode(email)
-    // ).encrypt(ServerPublicKey);
-    // console.log(encryptedPassword, encryptedEmail);
+    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+    console.log("Signup submitted:", {
+        username,
+        email,
+        password,
+        confirmPassword,
+    });
+    const encryptedPassword = await encrypt(password);
+    const encryptedEmail = await encrypt(email);
+    console.log(encryptedPassword, encryptedEmail);
 }

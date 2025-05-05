@@ -7,3 +7,9 @@ interface Announcement {
     importance: AnnouncementImportance;
     views: number;
 }
+
+const enum AnnouncementImportance {
+    Low = "Low",
+    Normal = "Normal",
+    High = "High",
+}
