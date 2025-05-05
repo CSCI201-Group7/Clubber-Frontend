@@ -25,7 +25,8 @@
             "@/app/*": ["src/app/*"],
             "@/assets/*": ["public/assets/*"],
             "@/styles/*": ["src/styles/*"],
-            "@/types/*": ["types/*"]        
+            "@/types/*": ["types/*"],        
+            "@/utilities/*": ["src/utilities/*"]
         }
     },
     "include": [
