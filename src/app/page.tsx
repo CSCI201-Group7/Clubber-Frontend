@@ -1,12 +1,39 @@
 import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
 import EventItem from "@/components/home/EventItem";
 import ReviewItem from "@/components/home/ReviewItem";
-import EventItem_home from "@/components/home/EventItem_home";
+// import EventItem_home from "@/components/home/EventItem_home";
 
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+
+  const mockEvents = [
+    {
+      id: "1" as EventId,
+      organizationId: "1" as OrganizationId,
+      title: "CSCI 201 Hackathon",
+      description: "Come participate in a hackathon exclusively for CSCI 201 students!",
+      location: "Ginsburg Hall, USC",
+      startTime: new Date("2025-05-05T10:00:00Z"),
+      endTime: new Date("2025-05-06T23:00:00Z"),
+      rsvpLink: "https://www.usc.edu",
+      imageId: "https://placehold.co/20x20" as FileId,
+      attendees: 8
+    }, 
+    {
+      id: "2" as EventId,
+      organizationId: "2" as OrganizationId,
+      title: "USC vs UCLA Football Game",
+      description: "Come cheer on USC Football while we beat the Bruins!",
+      location: "LA Coliseum",
+      startTime: new Date("2025-08-26T20:00:00Z"),
+      endTime: new Date("2025-11-25T23:00:00Z"),
+      rsvpLink: "https://www.usc.edu",
+      imageId: "https://placehold.co/20x20" as FileId,
+      attendees: 200
+    }
+  ]
     return (
         <div className="w-full h-full bg-gray-100 flex flex-col justify-center items-center">
             <div className="NavBar w-full h-fit flex flex-row justify-between items-center bg-usc-cardinal-red px-3 py-1.5">
@@ -44,11 +71,13 @@ export default function Home() {
                         <div className="text-[42px] font-roboto font-bold text-start text-black">
                             Events
                         </div>
-                        <div className="EventItem w-full h-fit flex flex-row justify-start items-start gap-2">
+                        <div className="EventItem w-full h-fit flex flex-col justify-start items-start gap-2 overflow-y-auto max-h-[60vh]">
                             {/* TODO: Add event items */}
-                            <EventItem_home eventId={"1"} />
-                            <EventItem_home eventId={"2"} />
-                            <EventItem_home eventId={"3"} />
+                            {mockEvents.map((event, index) => ( 
+                              <div key={index} className="flex-shrink-0">
+                                <EventItem event={event} />
+                              </div>
+                            ))}
                         </div>
                     </div>
                 </div>
