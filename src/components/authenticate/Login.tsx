@@ -5,9 +5,39 @@ import Link from "next/link";
 import { useState } from "react";
 import { encrypt } from "@/utilities/utilities";
 
+import axios, { AxiosError } from "axios";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
+    const onSubmitLogin = async (formData: FormData) => {
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        const encryptedEmail = await encrypt(email);
+        const encryptedPassword = await encrypt(password);
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/users/login",
+                {
+                    email: encryptedEmail,
+                    password: encryptedPassword,
+                }
+            );
+
+            if (response.status === 200) {
+                setError("");
+            } else if (response.status === 400) {
+                setError(response.data.message);
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                setError(error.response?.data.message);
+            }
+        }
+    };
 
     return (
         <div
@@ -54,6 +84,10 @@ export default function Login() {
                 </div>
 
                 <div className="w-full max-w-2/3 flex-1 h-fit py-2 flex flex-col justify-center items-center gap-2">
+                    <div className="text-red-500 text-sm font-roboto p-1 text-center">
+                        {error}
+                    </div>
+
                     <button
                         form="login-form"
                         className="w-full py-3 h-fit flex justify-center items-center cursor-pointer
@@ -76,13 +110,4 @@ export default function Login() {
             </Form>
         </div>
     );
-}
-
-async function onSubmitLogin(formData: FormData) {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    console.log(email, password);
-    const encryptedEmail = await encrypt(email);
-    const encryptedPassword = await encrypt(password);
-    console.log(encryptedEmail, encryptedPassword);
 }
