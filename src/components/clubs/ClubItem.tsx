@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function ClubItem({ club }: { club: Organization }) {
     const [logo, setLogo] = useState<string>("/logo.svg");
@@ -9,6 +10,7 @@ export default function ClubItem({ club }: { club: Organization }) {
     const [memberCount, setMemberCount] = useState<number>(0);
     const [reviewCount, setReviewCount] = useState<number>(0);
     const [eventCount, setEventCount] = useState<number>(0);
+    const router = useRouter();
 
     useEffect(() => {
         if (club.profileImageId) {
@@ -22,6 +24,7 @@ export default function ClubItem({ club }: { club: Organization }) {
 
     return (
         <div
+            onClick={() => router.push(`/clubs/details/${club.id}`)}
             className="w-full h-fit flex flex-col justify-start items-center gap-4 bg-neutral-50 rounded-lg
                 p-4 hover:bg-white hover:outline-usc-gold-light hover:outline-2 hover:outline-offset-2 
                 transition-all duration-300">

@@ -18,7 +18,18 @@ export async function getToken() {
     return token?.value;
 }
 
-export async function getUser() {
+export async function getUser(id: string) {
+    try {
+        const response = await fetcher.get(`/users/${id}`);
+        // console.log(response.data);
+        return response.data as User;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getSelf() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
 
@@ -108,4 +119,35 @@ export async function getClubs() {
         }
     }
     return results;
+}
+
+export async function getClub(id: string) {
+    try {
+        const response = await fetcher.get(`/organizations/${id}`);
+        return response.data as Organization;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getAnnouncements(organizationId: string) {
+    try {
+        const response = await fetcher.get(
+            `/announcements/organizations/${organizationId}`
+        );
+        return response.data.announcements as Announcement[];
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getFiles(ids: string[]) {
+    return Promise.all(
+        ids.map(async (id) => {
+            const response = await fetcher.get(`/files/${id}`);
+            return response.data as File;
+        })
+    );
 }

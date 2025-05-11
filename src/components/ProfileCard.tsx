@@ -1,6 +1,6 @@
 "use client";
 
-import { getUser } from "@/utilities/Fetcher";
+import { getSelf } from "@/utilities/Fetcher";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ export default function ProfileCard() {
 
     useEffect(() => {
         // on load
-        getUser().then((user) => {
+        getSelf().then((user) => {
             setUser(user);
         });
     }, []);

@@ -1,11 +1,13 @@
 interface Announcement {
     id: AnnouncementId;
     organizationId: OrganizationId;
+    authorId: UserId;
     title: string;
     content: string;
-    timeCreated: Date;
+    attachmentIds: FileId[];
+    createdAt: Date;
+    updatedAt: Date;
     importance: AnnouncementImportance;
-    views: number;
 }
 
 const enum AnnouncementImportance {

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 
 export default function ClubCard({ club }: { club: Organization }) {
     const [logo, setLogo] = useState<string>("/logo.svg");
     const [name, setName] = useState<string>("");
+    const router = useRouter();
 
     useEffect(() => {
         if (club.profileImageId) {
@@ -17,6 +19,7 @@ export default function ClubCard({ club }: { club: Organization }) {
 
     return (
         <div
+            onClick={() => router.push(`/clubs/details/${club.id}`)}
             className="w-[300px] h-[200px] bg-neutral-50 rounded-xl flex flex-col relative
             hover:outline-usc-gold-light hover:outline-2 hover:outline-offset-2 transition-all duration-300 hover:bg-white
             justify-start items-center px-4 py-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { getToken, getUser } from "@/utilities/Fetcher";
+import { getToken, getSelf } from "@/utilities/Fetcher";
 import NavBar from "@/components/NavBar";
 import Form from "next/form";
 import Image from "next/image";
@@ -35,7 +35,7 @@ export default function CreateClub() {
         getToken().then((token) => {
             if (token) {
                 setToken(token);
-                getUser().then((user) => {
+                getSelf().then((user) => {
                     if (user) {
                         setUser(user);
                     }
