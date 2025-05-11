@@ -2,14 +2,16 @@
 
 import Form from "next/form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { encrypt } from "@/utilities/utilities";
 
 import axios, { AxiosError } from "axios";
+import { setToken } from "@/utilities/Fetcher";
+
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const router = useRouter();
 
     const onSubmitLogin = async (formData: FormData) => {
         const email = formData.get("email") as string;
@@ -29,6 +31,8 @@ export default function Login() {
 
             if (response.status === 200) {
                 setError("");
+                await setToken(response.data.token);
+                router.push("/clubs");
             } else if (response.status === 400) {
                 setError(response.data.message);
             }
@@ -62,8 +66,6 @@ export default function Login() {
                             name="email"
                             type="email"
                             required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
@@ -77,8 +79,6 @@ export default function Login() {
                             name="password"
                             type="password"
                             required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                 </div>

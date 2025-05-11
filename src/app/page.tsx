@@ -1,23 +1,12 @@
 import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
 import EventItem from "@/components/home/EventItem";
+import NavBar from "@/components/NavBar";
 // import ReviewItem from "@/components/home/ReviewItem";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
     return (
         <div className="w-full h-full bg-gray-100 flex flex-col justify-center items-center">
-            <div className="NavBar w-full h-fit flex flex-row justify-between items-center bg-usc-cardinal-red px-3 py-1.5">
-                <Link href="/" className="w-fit h-fit px-2.5 py-1.5">
-                    <Image
-                        className="w-40 h-20"
-                        src="/assets/PrimaryMono-Gold.png"
-                        alt="USC Logo"
-                        width={80}
-                        height={40}
-                    />
-                </Link>
-            </div>
+            <NavBar displayProfileCard={true} />
             <div className="BodySection w-full max-w-2/3 h-full flex-1 flex flex-col justify-start items-center bg-white overflow-y-scroll px-4 py-2">
                 <div className="ClubRecommendation w-full h-fit flex flex-col justify-start items-start gap-2 p-2">
                     <div className="text-[42px] font-roboto font-bold text-start text-black">

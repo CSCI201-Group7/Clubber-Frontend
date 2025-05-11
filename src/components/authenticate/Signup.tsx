@@ -5,6 +5,8 @@ import axios, { AxiosError } from "axios";
 import Form from "next/form";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { setToken } from "@/utilities/Fetcher";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
@@ -17,6 +19,8 @@ export default function Signup() {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const confirmPasswordInputRef = useRef<HTMLInputElement>(null);
+
+    const router = useRouter();
 
     const validateEmail = () => {
         if (!emailInputRef.current) return;
@@ -140,6 +144,8 @@ export default function Signup() {
             });
             if (response.status === 200) {
                 setError("");
+                await setToken(response.data.token);
+                router.push("/clubs");
             } else if (response.status === 400) {
                 setError(response.data.message);
             }

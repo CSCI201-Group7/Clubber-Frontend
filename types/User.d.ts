@@ -17,8 +17,4 @@ interface User {
     commentIds: CommentId[];
     organizationIds: OrganizationId[];
     contactIds: UserId[];
-    favorites: {
-        reviewIds: ReviewId[];
-        organizationIds: OrganizationId[];
-    };
 }
