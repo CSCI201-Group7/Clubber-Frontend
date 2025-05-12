@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import AttachmentItem from "./AttachmentItem";
+import Image from "next/image";
+import { downvoteReview, getUserId, upvoteReview } from "@/utilities/Fetcher";
 
 export default function ReviewItem({ review }: { review: Review }) {
     const [title, setTitle] = useState<string>("");
@@ -18,6 +20,10 @@ export default function ReviewItem({ review }: { review: Review }) {
     const [author, setAuthor] = useState<User | null>(null);
     const [attachmentIds, setAttachmentIds] = useState<FileId[]>([]);
 
+    const [currentUserId, setCurrentUserId] = useState<UserId | null>(null);
+    const [upvotes, setUpvotes] = useState<UserId[]>([]);
+    const [downvotes, setDownvotes] = useState<UserId[]>([]);
+
     useEffect(() => {
         setTitle(review.title);
         setContent(review.content);
@@ -29,10 +35,39 @@ export default function ReviewItem({ review }: { review: Review }) {
         setCreatedAt(review.createdAt);
         setUpdatedAt(review.updatedAt);
         setAttachmentIds(review.fileIds);
+        setUpvotes(review.upvotes);
+        setDownvotes(review.downvotes);
         getUserById(review.authorId).then((user) => {
             setAuthor(user);
         });
+        getUserId().then((userId) => {
+            setCurrentUserId(userId as UserId | null);
+        });
     }, [review]);
+
+    const handleUpvote = () => {
+        if (currentUserId && !upvotes.includes(currentUserId)) {
+            upvoteReview(review.id).then(() => {
+                setUpvotes([...upvotes, currentUserId]);
+            });
+        } else if (currentUserId && upvotes.includes(currentUserId)) {
+            upvoteReview(review.id, true).then(() => {
+                setUpvotes(upvotes.filter((id) => id !== currentUserId));
+            });
+        }
+    };
+
+    const handleDownvote = () => {
+        if (currentUserId && !downvotes.includes(currentUserId)) {
+            downvoteReview(review.id).then(() => {
+                setDownvotes([...downvotes, currentUserId]);
+            });
+        } else if (currentUserId && downvotes.includes(currentUserId)) {
+            downvoteReview(review.id, true).then(() => {
+                setDownvotes(downvotes.filter((id) => id !== currentUserId));
+            });
+        }
+    };
 
     return (
         <div
@@ -68,21 +103,22 @@ export default function ReviewItem({ review }: { review: Review }) {
             <div className="w-full h-0.5 bg-gray-300 mb-1" />
 
             <div className="w-full h-fit grid grid-cols-3 grid-rows-2 grid-flow-col gap-2">
+                <RatingItem rating={communityRating} title="Community" />
                 <RatingItem rating={activitiesRating} title="Activities" />
                 <RatingItem rating={leadershipRating} title="Leadership" />
-                <RatingItem rating={communityRating} title="Community" />
                 <RatingItem rating={inclusivityRating} title="Inclusivity" />
                 <RatingItem rating={overallRating} title="Overall" />
             </div>
 
             <div className="w-full h-0.5 bg-gray-300 mb-1 mt-1" />
-            <div className="w-full h-fit text-gray-900 text-md font-roboto">
+
+            <div className="w-full h-fit text-gray-900 text-md font-roboto px-2 py-1">
                 <Markdown>{content}</Markdown>
             </div>
             {attachmentIds.length > 0 && (
                 <div
-                    className="w-full h-fit mt-2 p-2 border-2 border-gray-300 flex flex-row justify-start items-center gap-2
-                    rounded-lg bg-neutral-50 overflow-x-auto">
+                    className="w-full h-fit mt-2 p-2 border-2 border-gray-300 flex flex-row justify-start 
+                    items-center gap-2 rounded-lg bg-neutral-50 overflow-x-auto">
                     {attachmentIds.map((attachmentId, index) => (
                         <AttachmentItem
                             key={attachmentId}
@@ -92,6 +128,52 @@ export default function ReviewItem({ review }: { review: Review }) {
                     ))}
                 </div>
             )}
+            <div className="w-full h-fit flex flex-row justify-between items-center gap-4 py-1 px-2">
+                <div className="w-full h-fit flex flex-row justify-start items-center gap-4 py-1 px-2">
+                    <div
+                        onClick={handleUpvote}
+                        className="Upvotes w-fit h-fit text-gray-900 text-md font-roboto 
+                            flex flex-row justify-start items-center gap-1">
+                        <Image
+                            src={`/assets/clubs/details/arrow-up${
+                                upvotes.includes(currentUserId as UserId)
+                                    ? "-filled"
+                                    : ""
+                            }.svg`}
+                            alt="Upvote"
+                            width={25}
+                            height={25}
+                        />
+                        <div className="w-fit h-fit text-usc-cardinal-dark text-lg font-semibold font-roboto">
+                            {upvotes.length}
+                        </div>
+                    </div>
+                    <div
+                        onClick={handleDownvote}
+                        className="Downvotes w-fit h-fit text-gray-900 text-md font-roboto 
+                            flex flex-row justify-start items-center gap-1">
+                        <Image
+                            src={`/assets/clubs/details/arrow-down${
+                                downvotes.includes(currentUserId as UserId)
+                                    ? "-filled"
+                                    : ""
+                            }.svg`}
+                            alt="Downvote"
+                            width={25}
+                            height={25}
+                        />
+                        <div className="w-fit h-fit text-usc-cardinal-dark text-lg font-semibold font-roboto">
+                            {downvotes.length}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="w-full h-fit flex flex-row justify-end items-center gap-4 py-1 px-2">
+                    <div className="w-fit h-fit text-gray-500 text-md font-roboto">
+                        Comments: {review.commentIds.length}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -22,7 +22,10 @@ export async function getToken() {
 export async function getUserId() {
     const cookieStore = await cookies();
     const userId = cookieStore.get("userId");
-    return userId?.value;
+    if (!userId || userId.value === "") {
+        return null;
+    }
+    return userId.value;
 }
 
 export async function getUser(id: string) {
@@ -99,6 +102,63 @@ export async function createReview(formData: FormData) {
                 "Content-Type": "multipart/form-data",
             },
         });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function upvoteReview(reviewId: string, revoke: boolean = false) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.put(
+            `/reviews/${reviewId}/upvote`,
+            {
+                revoke,
+            },
+            {
+                headers: {
+                    Authorization: token.value,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function downvoteReview(
+    reviewId: string,
+    revoke: boolean = false
+) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.put(
+            `/reviews/${reviewId}/downvote`,
+            {
+                revoke,
+            },
+            {
+                headers: {
+                    Authorization: token.value,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error(error);
