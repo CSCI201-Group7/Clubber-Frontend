@@ -6,7 +6,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/utilities/Fetcher";
+import { setCredentials } from "@/utilities/Fetcher";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
@@ -144,7 +144,7 @@ export default function Signup() {
             });
             if (response.status === 200) {
                 setError("");
-                await setToken(response.data.token);
+                await setCredentials(response.data.token, response.data.userId);
                 router.push("/clubs");
             } else if (response.status === 400) {
                 setError(response.data.message);

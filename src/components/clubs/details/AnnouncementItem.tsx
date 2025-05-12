@@ -1,9 +1,9 @@
 "use client";
-import { getFiles, getUser } from "@/utilities/Fetcher";
-import { randomUUID } from "crypto";
+
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
-import Image from "next/image";
+import { getUserById } from "@/utilities/getters";
+import AttachmentItem from "./AttachmentItem";
 
 export default function AnnouncementItem({
     announcement,
@@ -16,7 +16,6 @@ export default function AnnouncementItem({
     const [updatedAt, setUpdatedAt] = useState<string>("");
     const [authorId, setAuthorId] = useState<string>("");
     const [attachmentIds, setAttachmentIds] = useState<FileId[]>([]);
-    const [attachments, setAttachments] = useState<File[]>([]);
     const [author, setAuthor] = useState<string>("anonymous");
 
     const [hasAttachments, setHasAttachments] = useState<boolean>(false);
@@ -33,21 +32,11 @@ export default function AnnouncementItem({
 
     useEffect(() => {
         if (authorId) {
-            getUser(authorId).then((user) => {
-                if (user) {
-                    setAuthor(user.username);
-                }
+            getUserById(authorId).then((user) => {
+                setAuthor(user.username);
             });
         }
     }, [authorId]);
-
-    useEffect(() => {
-        if (hasAttachments) {
-            getFiles(attachmentIds).then((attachments) => {
-                setAttachments(attachments);
-            });
-        }
-    }, [attachmentIds, hasAttachments]);
 
     return (
         <div
@@ -74,11 +63,13 @@ export default function AnnouncementItem({
                 <Markdown>{content}</Markdown>
             </div>
             {hasAttachments && (
-                <div className="w-full h-fit flex flex-row justify-start items-center gap-2 overflow-x-auto">
-                    {attachments.map((attachment) => (
+                <div className="w-full h-fit mt-2 p-2 border-2 border-gray-300 flex flex-row justify-start items-center gap-2
+                    rounded-lg bg-neutral-50 overflow-x-auto">
+                    {attachmentIds.map((attachmentId, index) => (
                         <AttachmentItem
-                            key={randomUUID()}
-                            attachment={attachment}
+                            key={attachmentId}
+                            index={index}
+                            attachmentId={attachmentId}
                         />
                     ))}
                 </div>
@@ -91,53 +82,6 @@ function TimeStampItem({ label, time }: { label: string; time: string }) {
     return (
         <div className="w-fit h-fit text-gray-800 text-sm font-roboto">
             {label}: {new Date(time).toLocaleString()}
-        </div>
-    );
-}
-
-function AttachmentItem({ attachment }: { attachment: File }) {
-    const [objectUrl, setObjectUrl] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (attachment) {
-            const url = URL.createObjectURL(attachment);
-            setObjectUrl(url);
-
-            return () => {
-                URL.revokeObjectURL(url);
-                setObjectUrl(null);
-            };
-        }
-    }, [attachment]);
-
-    if (!objectUrl) {
-        return (
-            <div className="w-fit h-fit text-gray-800 text-sm font-roboto animate-pulse">
-                Loading attachment...
-            </div>
-        );
-    }
-
-    const isImage = attachment.type.startsWith("image/");
-
-    return (
-        <div className="w-fit h-fit text-gray-800 text-sm font-roboto border border-gray-300 rounded-md p-2">
-            {isImage ? (
-                <Image
-                    src={objectUrl}
-                    alt={attachment.name}
-                    className="max-w-xs max-h-48 object-contain rounded"
-                    width={192}
-                    height={192}
-                />
-            ) : (
-                <a
-                    href={objectUrl}
-                    download={attachment.name}
-                    className="text-blue-600 hover:underline hover:text-blue-800 transition-colors duration-150">
-                    Download {attachment.name}
-                </a>
-            )}
         </div>
     );
 }

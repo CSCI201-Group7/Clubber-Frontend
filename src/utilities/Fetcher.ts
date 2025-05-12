@@ -7,15 +7,22 @@ const fetcher = axios.create({
     baseURL: `http://localhost:8080`,
 });
 
-export async function setToken(newToken: string) {
+export async function setCredentials(newToken: string, newUserId: string) {
     const cookieStore = await cookies();
     cookieStore.set("token", newToken);
+    cookieStore.set("userId", newUserId);
 }
 
 export async function getToken() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
     return token?.value;
+}
+
+export async function getUserId() {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("userId");
+    return userId?.value;
 }
 
 export async function getUser(id: string) {
@@ -77,77 +84,24 @@ export async function uploadFile(filename: string, file: File) {
     }
 }
 
-export async function getClubs() {
+export async function createReview(formData: FormData) {
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
 
-    const results: {
-        myClubs: Organization[];
-        allClubs: Organization[];
-    } = {
-        myClubs: [],
-        allClubs: [],
-    };
-
     if (!token || token.value === "") {
-        return results;
+        return null;
     }
 
     try {
-        const response = await fetcher.get(`/organizations/all`, {
+        const response = await fetcher.post(`/reviews`, formData, {
             headers: {
                 Authorization: token.value,
+                "Content-Type": "multipart/form-data",
             },
         });
-        results.allClubs = response.data.organizations as Organization[];
-        // console.log(results.allClubs);
-    } catch (error) {
-        console.error(error);
-    }
-
-    if (token.value !== "") {
-        try {
-            const response = await fetcher.get(`/organizations`, {
-                headers: {
-                    Authorization: token.value,
-                },
-            });
-            results.myClubs = response.data.organizations as Organization[];
-            // console.log(results.myClubs);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    return results;
-}
-
-export async function getClub(id: string) {
-    try {
-        const response = await fetcher.get(`/organizations/${id}`);
-        return response.data as Organization;
+        return response.data;
     } catch (error) {
         console.error(error);
         return null;
     }
-}
-
-export async function getAnnouncements(organizationId: string) {
-    try {
-        const response = await fetcher.get(
-            `/announcements/organizations/${organizationId}`
-        );
-        return response.data.announcements as Announcement[];
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
-export async function getFiles(ids: string[]) {
-    return Promise.all(
-        ids.map(async (id) => {
-            const response = await fetcher.get(`/files/${id}`);
-            return response.data as File;
-        })
-    );
 }

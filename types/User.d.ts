@@ -15,6 +15,7 @@ interface User {
     year: Year;
     reviewIds: ReviewId[];
     commentIds: CommentId[];
-    organizationIds: OrganizationId[];
     contactIds: UserId[];
+    profileImageId?: FileId;
+    bio?: string;
 }

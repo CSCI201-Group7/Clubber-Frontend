@@ -7,7 +7,7 @@ import { useState } from "react";
 import { encrypt } from "@/utilities/utilities";
 
 import axios, { AxiosError } from "axios";
-import { setToken } from "@/utilities/Fetcher";
+import { setCredentials } from "@/utilities/Fetcher";
 
 export default function Login() {
     const [error, setError] = useState("");
@@ -31,7 +31,7 @@ export default function Login() {
 
             if (response.status === 200) {
                 setError("");
-                await setToken(response.data.token);
+                await setCredentials(response.data.token, response.data.userId);
                 router.push("/clubs");
             } else if (response.status === 400) {
                 setError(response.data.message);

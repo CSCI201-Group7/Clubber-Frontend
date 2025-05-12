@@ -3,11 +3,13 @@
 import NavBar from "@/components/NavBar";
 import AllClubs from "@/components/clubs/AllClubs";
 import MyClubs from "@/components/clubs/MyClubs";
-import { getClubs, getToken } from "@/utilities/Fetcher";
+import { getToken, getUserId } from "@/utilities/Fetcher";
+import { getAllClubs, getClubsByUserId } from "@/utilities/getters";
 import { useEffect, useState } from "react";
 
 export default function ClubsPage() {
     const [token, setToken] = useState<string>("");
+    const [userId, setUserId] = useState<string>("");
     const [myClubs, setMyClubs] = useState<Organization[]>([]);
     const [allClubs, setAllClubs] = useState<Organization[]>([]);
 
@@ -19,27 +21,37 @@ export default function ClubsPage() {
         getToken().then((token) => {
             if (token) {
                 setToken(token);
+                console.log(token);
+            }
+        });
+
+        getUserId().then((userId) => {
+            if (userId) {
+                setUserId(userId);
+                console.log(userId);
             }
         });
     }, []);
 
     useEffect(() => {
-        if (token) {
-            getClubs().then((clubs) => {
+        if (token && userId) {
+            getClubsByUserId(userId).then((clubs) => {
                 if (clubs) {
-                    console.log(clubs.myClubs);
-                    console.log(clubs.allClubs);
-                    setMyClubs(clubs.myClubs);
-                    setAllClubs(clubs.allClubs);
-                    setIsMyClubEmpty(clubs.myClubs.length === 0);
-                    setIsAllClubEmpty(clubs.allClubs.length === 0);
+                    setMyClubs(clubs);
+                    setIsMyClubEmpty(clubs.length === 0);
                 }
-                setIsLoading(false);
+            });
+
+            getAllClubs().then((clubs) => {
+                if (clubs) {
+                    setAllClubs(clubs);
+                    setIsAllClubEmpty(clubs.length === 0);
+                }
             });
         } else {
             setIsLoading(false);
         }
-    }, [token]);
+    }, [token, userId]);
 
     return (
         <div className="flex flex-1 flex-col h-full w-full relative bg-neutral-100 justify-start items-center">

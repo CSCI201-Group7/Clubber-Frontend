@@ -18,12 +18,11 @@ interface Review {
         inclusivity: number;
     };
     fileIds: FileId[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     upvotes: UserId[];
     downvotes: UserId[];
     views: number;
     commentIds: CommentId[];
-    reportIds: ReportId[];
     status: ReviewStatus;
 }

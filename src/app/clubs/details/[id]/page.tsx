@@ -4,10 +4,18 @@ import Image from "next/image";
 import NavBar from "@/components/NavBar";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getAnnouncements, getClub } from "@/utilities/Fetcher";
 import PropertyItem from "@/components/clubs/details/PropertyItem";
 import Markdown from "react-markdown";
 import AnnouncementItem from "@/components/clubs/details/AnnouncementItem";
+import EventItem from "@/components/clubs/details/EventItem";
+import {
+    getAnnouncementsByClubId,
+    getEventsByClubId,
+    getReviewsByClubId,
+} from "@/utilities/getters";
+import { getClubById } from "@/utilities/getters";
+import ReviewItem from "@/components/clubs/details/ReviewItem";
+import ReviewForm from "@/components/clubs/details/ReviewForm";
 
 // url: /clubs/details/:id
 export default function ClubDetailsPage() {
@@ -18,23 +26,34 @@ export default function ClubDetailsPage() {
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [type, setType] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [memberCount, setMemberCount] = useState<number>(0);
     const [reviewCount, setReviewCount] = useState<number>(0);
     const [eventCount, setEventCount] = useState<number>(0);
     const [description, setDescription] = useState<string>("");
     const [logo, setLogo] = useState<string>("/logo.svg");
+
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-    const [hasAnnouncements, setHasAnnouncements] = useState<boolean>(false);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
     useEffect(() => {
+        console.log(clubId);
         if (clubId) {
-            getClub(clubId).then(setClub);
-            getAnnouncements(clubId).then((announcements) => {
-                if (announcements) {
-                    setAnnouncements(announcements);
-                    setHasAnnouncements(announcements.length > 0);
-                    console.log(announcements);
-                }
+            getClubById(clubId).then((club) => {
+                setClub(club);
+            });
+
+            getAnnouncementsByClubId(clubId).then((announcements) => {
+                setAnnouncements(announcements);
+            });
+
+            getEventsByClubId(clubId).then((events) => {
+                setEvents(events);
+            });
+
+            getReviewsByClubId(clubId).then((reviews) => {
+                setReviews(reviews);
             });
         }
     }, [clubId]);
@@ -44,6 +63,7 @@ export default function ClubDetailsPage() {
             setName(club.name);
             setLocation(club.location);
             setType(club.type);
+            setEmail(club.contactEmail);
             setMemberCount(club.memberIds.length);
             setReviewCount(club.reviewIds.length);
             setEventCount(club.eventIds.length);
@@ -53,10 +73,6 @@ export default function ClubDetailsPage() {
             }
         }
     }, [club]);
-
-    if (!clubId) {
-        return <UnspecifiedClub />;
-    }
 
     return (
         <div className="flex flex-1 flex-col h-full w-full relative bg-neutral-100 justify-start items-center">
@@ -82,6 +98,7 @@ export default function ClubDetailsPage() {
                     <div className="w-full h-fit grid grid-cols-3 grid-rows-2 grid-flow-col justify-start items-center gap-3">
                         <PropertyItem label="Location" value={location} />
                         <PropertyItem label="Type" value={type} />
+                        <PropertyItem label="Email" value={email} />
                         <PropertyItem
                             label="Member Count"
                             value={memberCount.toString()}
@@ -97,32 +114,90 @@ export default function ClubDetailsPage() {
                     </div>
                 </div>
 
-                <div className="w-full h-fit flex flex-col justify-start items-start gap-4">
-                    <div className="text-gray-900 text-3xl font-bold font-roboto">
-                        Announcements
-                    </div>
-                    <div className="w-full h-fit flex flex-col justify-start items-start gap-6 bg-neutral-50 rounded-lg p-4">
-                        {hasAnnouncements ? (
-                            announcements.map((announcement) => (
-                                <AnnouncementItem
-                                    key={announcement.id}
-                                    announcement={announcement}
-                                />
-                            ))
-                        ) : (
-                            <div className="w-full h-fit text-gray-700 text-xl text-center">
-                                No announcements found
-                            </div>
-                        )}
-                    </div>
-                </div>
-
                 <div className="Description w-full h-fit flex flex-col justify-start items-start gap-4">
                     <div className="text-gray-900 text-3xl font-bold font-roboto">
                         Description
                     </div>
-                    <div className="w-full h-fit rounded-2xl p-4 bg-neutral-50 hover:outline-2 hover:outline-usc-gold-light transition-all duration-200">
+                    <div
+                        className="w-full h-fit rounded-2xl px-4 py-2 bg-neutral-50 hover:outline-2 
+                        hover:outline-usc-gold-light transition-all duration-200">
                         <Markdown>{description}</Markdown>
+                    </div>
+                </div>
+
+                <div className="Announcements w-full h-fit flex flex-col justify-start items-start gap-4">
+                    <div className="text-gray-900 text-3xl font-bold font-roboto">
+                        Announcements
+                    </div>
+                    <div
+                        className="w-full h-fit flex flex-col justify-start items-start bg-neutral-50 rounded-lg p-4
+                        hover:outline-usc-gold-light hover:outline-2 hover:-outline-offset-2 transition-all duration-300">
+                        <div
+                            className="w-full h-full max-h-[600px] overflow-y-auto flex flex-col justify-start items-start 
+                            gap-4 p-1 rounded-lg">
+                            {announcements.length > 0 ? (
+                                announcements.map((announcement) => (
+                                    <AnnouncementItem
+                                        key={announcement.id}
+                                        announcement={announcement}
+                                    />
+                                ))
+                            ) : (
+                                <div className="w-full h-fit text-gray-700 text-xl text-center">
+                                    No announcements found
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="Events w-full h-fit flex flex-col justify-start items-start gap-4">
+                    <div className="text-gray-900 text-3xl font-bold font-roboto">
+                        Events
+                    </div>
+                    <div
+                        className="w-full h-fit flex flex-col justify-start items-start bg-neutral-50 rounded-lg p-4
+                        hover:outline-usc-gold-light hover:outline-2 hover:-outline-offset-2 transition-all duration-300">
+                        <div
+                            className="w-full h-full max-h-[600px] overflow-y-auto flex flex-col justify-start items-start 
+                            gap-4 p-1 rounded-lg">
+                            {events.length > 0 ? (
+                                events.map((event) => (
+                                    <EventItem key={event.id} event={event} />
+                                ))
+                            ) : (
+                                <div className="w-full h-fit text-gray-700 text-xl text-center">
+                                    No events found
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="Reviews w-full h-fit flex flex-col justify-start items-start gap-4">
+                    <div className="text-gray-900 text-3xl font-bold font-roboto">
+                        Reviews
+                    </div>
+                    <div
+                        className="w-full h-fit flex flex-col justify-start items-start bg-neutral-50 rounded-lg p-4 gap-4
+                        hover:outline-usc-gold-light hover:outline-2 hover:-outline-offset-2 transition-all duration-300">
+                        <CreateReviewForm />
+                        <div
+                            className="w-full h-full max-h-[600px] overflow-y-auto flex flex-col justify-start items-start 
+                            gap-4 rounded-lg">
+                            {reviews.length > 0 ? (
+                                reviews.map((review) => (
+                                    <ReviewItem
+                                        key={review.id}
+                                        review={review}
+                                    />
+                                ))
+                            ) : (
+                                <div className="p-4 w-full h-fit text-gray-700 text-xl text-center">
+                                    No reviews found
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,17 +205,23 @@ export default function ClubDetailsPage() {
     );
 }
 
-function UnspecifiedClub() {
+function CreateReviewForm() {
+    const [hidden, setHidden] = useState<boolean>(true);
+
     return (
-        <div className="flex flex-1 flex-col h-full w-full relative bg-neutral-100 justify-start items-center">
-            <NavBar displayProfileCard={true} />
-            <div className="flex flex-col items-center justify-center w-full max-w-1/2 h-full gap-1">
-                <div className="text-3xl font-bold text-center">
-                    Nothing to see here
+        <div
+            onClick={() => setHidden(!hidden)}
+            className={`w-full h-fit flex flex-col justify-start items-start bg-neutral-100 rounded-lg p-4
+            hover:outline-usc-gold-light hover:outline-3 transition-all duration-300 
+            hover:cursor-pointer hover:bg-white
+            ${hidden ? "" : "outline outline-usc-gold-light"}`}>
+            <div
+                className="w-full h-fit flex flex-col justify-start items-start gap-2
+                transition-all duration-500 ease-in-out">
+                <div className="w-full h-fit text-gray-900 text-xl font-bold font-roboto text-center">
+                    Write a Review?
                 </div>
-                <div className="text-center text-gray-500 text-lg">
-                    Move along
-                </div>
+                <ReviewForm hidden={hidden} setHidden={setHidden} />
             </div>
         </div>
     );

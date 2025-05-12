@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Login from "@/components/authenticate/Login";
 import Signup from "@/components/authenticate/Signup";
 import NavBar from "@/components/NavBar";
-import { getToken } from "@/utilities/Fetcher";
+import { getToken, getUserId } from "@/utilities/Fetcher";
 
 enum AuthenticateType {
     Login = "login",
@@ -27,11 +27,15 @@ export default function Authenticate() {
             setAuthenticateType(AuthenticateType.Login);
         }
 
-        getToken().then((token) => {
-            if (token) {
+        const validateUser = async () => {
+            const token = await getToken();
+            const userId = await getUserId();
+            if (token && userId) {
                 router.push("/clubs");
             }
-        });
+        };
+
+        validateUser();
     }, [searchParams, router]);
 
     return (

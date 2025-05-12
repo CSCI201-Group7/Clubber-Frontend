@@ -4,8 +4,8 @@ interface Event {
     title: string;
     description: string;
     location: string;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     rsvpLink: string;
-    imageId: FileId;
+    attachmentIds: FileId[];
 }

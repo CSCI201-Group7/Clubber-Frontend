@@ -33,7 +33,7 @@
 }
 
 p {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--color-gray-900);
     font-family: "Roboto", "Inter", sans-serif;
 }
@@ -44,30 +44,30 @@ h3,
 h4,
 h5 {
     font-family: "Inter", "Roboto", sans-serif;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
     color: var(--color-black);
 }
 
 h1 {
-    font-size: 2.5rem; /* Larger than p */
+    font-size: 1.7rem; /* Larger than p */
 }
 
 h2 {
-    font-size: 2.25rem;
+    font-size: 1.55rem;
 }
 
 h3 {
-    font-size: 2rem;
+    font-size: 1.35rem;
 }
 
 h4 {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
 }
 
 h5 {
-    font-size: 1.5rem; /* Slightly larger than p */
+    font-size: 1.2rem; /* Slightly larger than p */
 }
 
 ul,
@@ -106,6 +106,7 @@ pre {
     overflow-x: auto; /* Allow horizontal scrolling for long code lines */
     margin-top: 0.5rem;
     margin-bottom: 1rem;
+    font-size: 0.9rem;
 }
 
 pre code {
