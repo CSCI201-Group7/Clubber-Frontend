@@ -174,7 +174,7 @@ export default function ReviewItem({ review }: { review: Review }) {
 
                 <div className="w-full h-fit flex flex-row justify-end items-center gap-4 py-1 px-2">
                     <div className="w-fit h-fit text-gray-500 text-md font-roboto">
-                        Comments: {review.commentIds.length}
+                        Comments: {comments.length}
                     </div>
 
                     <div

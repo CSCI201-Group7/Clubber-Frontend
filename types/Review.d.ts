@@ -22,7 +22,4 @@ interface Review {
     updatedAt: string;
     upvotes: UserId[];
     downvotes: UserId[];
-    views: number;
-    commentIds: CommentId[];
-    status: ReviewStatus;
 }

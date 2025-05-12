@@ -27,7 +27,7 @@ export default function ClubItem({ club }: { club: Organization }) {
             onClick={() => router.push(`/clubs/details/${club.id}`)}
             className="w-full h-fit flex flex-col justify-start items-center gap-4 bg-neutral-50 rounded-lg
                 p-4 hover:bg-white hover:outline-usc-gold-light hover:outline-2 hover:outline-offset-2 
-                transition-all duration-300">
+                transition-all duration-300 outline outline-gray-300">
             <div className="w-full h-fit flex flex-row justify-between items-center gap-4">
                 <div className="w-full h-20 flex flex-row justify-start items-center gap-4">
                     <Image

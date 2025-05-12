@@ -1,40 +1,55 @@
-import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
-import EventItem from "@/components/home/EventItem";
+"use client";
+
 import NavBar from "@/components/NavBar";
+import { getAllEvents, getAllReviews } from "@/utilities/getters";
+import { useState } from "react";
+import { useEffect } from "react";
+
+import EventItem from "@/components/home/EventItem";
+import ReviewItem from "@/components/home/ReviewItem";
 // import ReviewItem from "@/components/home/ReviewItem";
 
 export default function Home() {
+    const [events, setEvents] = useState<Event[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    useEffect(() => {
+        getAllEvents().then((events) => {
+            setEvents(events);
+        });
+        getAllReviews().then((reviews) => {
+            setReviews(reviews);
+        });
+    }, []);
+
     return (
-        <div className="w-full h-full bg-gray-100 flex flex-col justify-center items-center">
+        <div className="w-full h-full bg-neutral-100 flex flex-col justify-center items-center">
             <NavBar displayProfileCard={true} />
-            <div className="BodySection w-full max-w-2/3 h-full flex-1 flex flex-col justify-start items-center bg-white overflow-y-scroll px-4 py-2">
-                <div className="ClubRecommendation w-full h-fit flex flex-col justify-start items-start gap-2 p-2">
-                    <div className="text-[42px] font-roboto font-bold text-start text-black">
-                        Clubs
+            <div
+                className="BodySection w-full max-w-1/2 h-full flex-1 flex flex-col justify-start 
+                items-center bg-white overflow-y-scroll p-4">
+                <div className="w-full h-fit max-h-[700px] flex flex-col justify-start items-start gap-2 p-2">
+                    <div className="text-4xl font-sans font-bold text-start text-black">
+                        Events
                     </div>
-                    <div className="ClubRecommendationItem w-full h-fit flex flex-row justify-start items-start gap-2 overflow-x-scroll">
-                        {/* TODO: Add club recommendation items */}
-                        <ClubRecommendationItem />
+                    <div
+                        className="w-full h-full flex flex-col justify-start 
+                        items-start gap-2 overflow-y-scroll p-4 bg-neutral-100 rounded-xl">
+                        {events &&
+                            events.map((event) => (
+                                <EventItem key={event.id} event={event} />
+                            ))}
                     </div>
                 </div>
-                <div className="ReviewAndEvents w-full h-full flex flex-row justify-between items-start gap-2 p-2">
-                    <div className="Reviews w-full flex-1 h-full flex flex-col justify-start items-start gap-2">
-                        <div className="text-[42px] font-roboto font-bold text-start text-black">
-                            Reviews
-                        </div>
-                        <div className="ReviewItem w-2/3 h-fit flex flex-row justify-start items-start gap-2">
-                            {/* TODO: Add review items */}
-                            {/* <ReviewItem /> */}
-                        </div>
+
+                <div className="w-full h-fit max-h-[700px] flex flex-col justify-start items-start gap-2 p-2">
+                    <div className="text-4xl font-sans font-bold text-start text-black">
+                        Reviews
                     </div>
-                    <div className="Events w-1/3 flex-1 h-full flex flex-col justify-start items-start gap-2">
-                        <div className="text-[42px] font-roboto font-bold text-start text-black">
-                            Events
-                        </div>
-                        <div className="EventItem w-full h-fit flex flex-row justify-start items-start gap-2">
-                            {/* TODO: Add event items */}
-                            <EventItem />
-                        </div>
+                    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-y-scroll p-4 bg-neutral-100 rounded-xl">
+                        {reviews &&
+                            reviews.map((review) => (
+                                <ReviewItem key={review.id} review={review} />
+                            ))}
                     </div>
                 </div>
             </div>

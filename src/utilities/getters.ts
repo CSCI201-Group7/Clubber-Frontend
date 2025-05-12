@@ -19,6 +19,12 @@ export async function getAllClubs(): Promise<Organization[]> {
     return data.items;
 }
 
+export async function getAllEvents(): Promise<Event[]> {
+    const response = await fetch(`http://localhost:8080/events/all`);
+    const data = await response.json();
+    return data.items;
+}
+
 export async function getAnnouncementsByClubId(
     id: string
 ): Promise<Announcement[]> {
@@ -52,6 +58,12 @@ export async function getReviewsByClubId(id: string): Promise<Review[]> {
 
 export async function getReviewsByUserId(id: string): Promise<Review[]> {
     const response = await fetch(`http://localhost:8080/reviews?userId=${id}`);
+    const data = await response.json();
+    return data.items;
+}
+
+export async function getAllReviews(): Promise<Review[]> {
+    const response = await fetch(`http://localhost:8080/reviews/all`);
     const data = await response.json();
     return data.items;
 }

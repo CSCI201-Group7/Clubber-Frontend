@@ -32,7 +32,6 @@ export default function ClubDetailsPage() {
     const [eventCount, setEventCount] = useState<number>(0);
     const [description, setDescription] = useState<string>("");
     const [logo, setLogo] = useState<string>("/logo.svg");
-
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -41,19 +40,29 @@ export default function ClubDetailsPage() {
         console.log(clubId);
         if (clubId) {
             getClubById(clubId).then((club) => {
-                setClub(club);
+                if (club) {
+                    setClub(club);
+                }
             });
 
             getAnnouncementsByClubId(clubId).then((announcements) => {
-                setAnnouncements(announcements);
+                if (announcements) {
+                    setAnnouncements(announcements);
+                }
             });
 
             getEventsByClubId(clubId).then((events) => {
-                setEvents(events);
+                if (events) {
+                    setEvents(events);
+                    setEventCount(events.length);
+                }
             });
 
             getReviewsByClubId(clubId).then((reviews) => {
-                setReviews(reviews);
+                if (reviews) {
+                    setReviews(reviews);
+                    setReviewCount(reviews.length);
+                }
             });
         }
     }, [clubId]);
@@ -64,10 +73,8 @@ export default function ClubDetailsPage() {
             setLocation(club.location);
             setType(club.type);
             setEmail(club.contactEmail);
-            setMemberCount(club.memberIds.length);
-            setReviewCount(club.reviewIds.length);
-            setEventCount(club.eventIds.length);
             setDescription(club.description);
+            setMemberCount(club.memberIds.length);
             if (club.profileImageId) {
                 setLogo(`http://localhost:8080/files/${club.profileImageId}`);
             }
