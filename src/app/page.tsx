@@ -1,7 +1,6 @@
 import ClubRecommendationItem from "@/components/home/ClubRecommendationItem";
 import EventItem from "@/components/home/EventItem";
 import ReviewItem from "@/components/home/ReviewItem";
-// import EventItem_home from "@/components/home/EventItem_home";
 
 import Image from "next/image";
 import Link from "next/link";

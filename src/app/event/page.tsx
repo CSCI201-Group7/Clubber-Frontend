@@ -36,20 +36,13 @@ export default function EventPage() {
                 attendees,
             });
         }
-  }, [searchParams]);
+    }, [searchParams]);
 
-  if (!event) {
-    return <div>Event Loading...</div>;
-  }
+    if (!event) {
+        return <div>Event Loading...</div>;
+    }
 
-//   return (
-//     <div>
-//       <EventItem event={event} />
-//     </div>
-//   );
-
-
-return (
+    return (
         <div className="bg-gray-50 p-4 my-4 w-4/6 mx-auto">
             <div className="flex justify-between mb-1">
                 <h2 className="text-xl font-bold text-gray-800">
@@ -64,7 +57,6 @@ return (
             <p className="text-sm text-gray-600 mb-2 italic">
                 Hosted by {event.organizationId}
             </p>
-
 
             <div className="relative h-48 w-full mb-3">
                 <Image
@@ -96,8 +88,4 @@ return (
             </div>
         </div>
     );
-}
-
-
-
-
+} 
