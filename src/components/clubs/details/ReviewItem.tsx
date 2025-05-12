@@ -1,4 +1,4 @@
-import { getUserById } from "@/utilities/getters";
+import { getCommentsByReviewId, getUserById } from "@/utilities/getters";
 import { useEffect } from "react";
 
 import { useState } from "react";
@@ -6,6 +6,8 @@ import Markdown from "react-markdown";
 import AttachmentItem from "./AttachmentItem";
 import Image from "next/image";
 import { downvoteReview, getUserId, upvoteReview } from "@/utilities/Fetcher";
+import CommentForm from "./CommentForm";
+import CommentItem from "./CommentItem";
 
 export default function ReviewItem({ review }: { review: Review }) {
     const [title, setTitle] = useState<string>("");
@@ -23,6 +25,8 @@ export default function ReviewItem({ review }: { review: Review }) {
     const [currentUserId, setCurrentUserId] = useState<UserId | null>(null);
     const [upvotes, setUpvotes] = useState<UserId[]>([]);
     const [downvotes, setDownvotes] = useState<UserId[]>([]);
+    const [commentFormHidden, setCommentFormHidden] = useState<boolean>(true);
+    const [comments, setComments] = useState<ClubComment[]>([]);
 
     useEffect(() => {
         setTitle(review.title);
@@ -42,6 +46,9 @@ export default function ReviewItem({ review }: { review: Review }) {
         });
         getUserId().then((userId) => {
             setCurrentUserId(userId as UserId | null);
+        });
+        getCommentsByReviewId(review.id).then((comments) => {
+            setComments(comments);
         });
     }, [review]);
 
@@ -72,7 +79,7 @@ export default function ReviewItem({ review }: { review: Review }) {
     return (
         <div
             className="w-full h-fit flex flex-col justify-start items-start gap-2 duration-300
-            bg-neutral-100 rounded-lg p-4 hover:outline-usc-gold-light hover:outline-2 transition-all">
+            bg-neutral-100 rounded-lg px-4 py-2 hover:outline-usc-gold-light hover:outline-2 transition-all">
             <div className="w-full h-fit flex flex-row justify-between items-end">
                 <div className="w-fit h-fit flex flex-col gap-1">
                     <div className="w-fit h-fit text-gray-900 text-2xl font-bold font-roboto">
@@ -101,7 +108,6 @@ export default function ReviewItem({ review }: { review: Review }) {
                 </div>
             </div>
             <div className="w-full h-0.5 bg-gray-300 mb-1" />
-
             <div className="w-full h-fit grid grid-cols-3 grid-rows-2 grid-flow-col gap-2">
                 <RatingItem rating={communityRating} title="Community" />
                 <RatingItem rating={activitiesRating} title="Activities" />
@@ -109,9 +115,7 @@ export default function ReviewItem({ review }: { review: Review }) {
                 <RatingItem rating={inclusivityRating} title="Inclusivity" />
                 <RatingItem rating={overallRating} title="Overall" />
             </div>
-
             <div className="w-full h-0.5 bg-gray-300 mb-1 mt-1" />
-
             <div className="w-full h-fit text-gray-900 text-md font-roboto px-2 py-1">
                 <Markdown>{content}</Markdown>
             </div>
@@ -172,8 +176,32 @@ export default function ReviewItem({ review }: { review: Review }) {
                     <div className="w-fit h-fit text-gray-500 text-md font-roboto">
                         Comments: {review.commentIds.length}
                     </div>
+
+                    <div
+                        onClick={() => setCommentFormHidden(!commentFormHidden)}
+                        className="w-fit h-fit p-2 text-md font-roboto bg-neutral-50 rounded-lg hover:bg-white
+                        outline-2 outline-gray-400 hover:outline-usc-gold-light transition-all">
+                        <Image
+                            className="w-4 h-4"
+                            src="/assets/clubs/details/chat-bubble.svg"
+                            alt="Comment"
+                            width={25}
+                            height={25}
+                        />
+                    </div>
                 </div>
             </div>
+
+            <CommentForm
+                hidden={commentFormHidden}
+                setHidden={setCommentFormHidden}
+                reviewId={review.id}
+                parentCommentId={""}
+                setForceUpdate={() => {}}
+            />
+            {comments.map((comment) => (
+                <CommentItem key={comment.id} comment={comment} />
+            ))}
         </div>
     );
 }
@@ -182,7 +210,7 @@ function RatingItem({ rating, title }: { rating: number; title: string }) {
     return (
         <div
             className="w-full h-fit flex flex-row justify-start items-start gap-1 px-2 py-1 bg-gray-50 rounded-lg
-            outline outline-gray-300">
+            outline outline-gray-300 hover:outline-usc-gold-light hover:outline-2 transition-all">
             <div className="w-full h-fit text-gray-900 text-md font-roboto">
                 {title}
             </div>

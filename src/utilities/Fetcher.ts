@@ -165,3 +165,99 @@ export async function downvoteReview(
         return null;
     }
 }
+
+export async function upvoteComment(
+    commentId: string,
+    revoke: boolean = false
+) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.put(
+            `/comments/${commentId}/upvote`,
+            {
+                revoke,
+            },
+            {
+                headers: {
+                    Authorization: token.value,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function downvoteComment(
+    commentId: string,
+    revoke: boolean = false
+) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.put(
+            `/comments/${commentId}/downvote`,
+            {
+                revoke,
+            },
+            {
+                headers: {
+                    Authorization: token.value,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function createComment(
+    text: string,
+    reviewId?: string,
+    parentCommentId?: string
+) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+    if (!reviewId && !parentCommentId) {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.post(
+            `/comments`,
+            {
+                text,
+                reviewId: reviewId || null,
+                parentCommentId: parentCommentId || null,
+            },
+            {
+                headers: {
+                    Authorization: token.value,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

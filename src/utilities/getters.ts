@@ -61,3 +61,23 @@ export async function getCommentsByUserId(id: string): Promise<ClubComment[]> {
     const data = await response.json();
     return data.items;
 }
+
+export async function getCommentsByReviewId(
+    id: string
+): Promise<ClubComment[]> {
+    const response = await fetch(
+        `http://localhost:8080/comments?reviewId=${id}`
+    );
+    const data = await response.json();
+    return data.items;
+}
+
+export async function getCommentsByParentCommentId(
+    id: string
+): Promise<ClubComment[]> {
+    const response = await fetch(
+        `http://localhost:8080/comments?commentId=${id}`
+    );
+    const data = await response.json();
+    return data.items;
+}

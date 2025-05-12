@@ -3,7 +3,7 @@ interface ClubComment {
     authorId: UserId;
     parentCommentId: CommentId;
     reviewId: ReviewId;
-    content: string;
+    text: string;
     timeCreated: string;
     upvotes: UserId[];
     downvotes: UserId[];

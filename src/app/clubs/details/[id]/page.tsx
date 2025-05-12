@@ -184,7 +184,7 @@ export default function ClubDetailsPage() {
                         <CreateReviewForm />
                         <div
                             className="w-full h-full max-h-[600px] overflow-y-auto flex flex-col justify-start items-start 
-                            gap-4 rounded-lg">
+                            gap-4 rounded-lg p-1">
                             {reviews.length > 0 ? (
                                 reviews.map((review) => (
                                     <ReviewItem
