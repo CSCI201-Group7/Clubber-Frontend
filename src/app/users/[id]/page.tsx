@@ -314,7 +314,7 @@ export default function UserPage() {
                     </div>
 
                     <div
-                        className="w-full h-fit max-h-[300px] flex flex-row justify-start items-center gap-2 bg-gray-100
+                        className="w-full h-fit max-h-[300px] flex flex-col justify-start items-center gap-2 bg-gray-100
                         rounded-lg p-4 overflow-y-auto hover:outline-usc-gold-light hover:outline-2 transition-all duration-300">
                         {clubs.length > 0 ? (
                             clubs.map((club) => (
@@ -334,7 +334,7 @@ export default function UserPage() {
                     </div>
 
                     <div
-                        className="w-full h-fit max-h-[450px] flex flex-row justify-start items-center gap-2 bg-gray-100
+                        className="w-full h-fit max-h-[450px] flex flex-col justify-start items-center gap-2 bg-gray-100
                         rounded-lg p-4 overflow-y-auto hover:outline-usc-gold-light hover:outline-2 transition-all duration-300">
                         {reviews.length > 0 ? (
                             reviews.map((review) => (
