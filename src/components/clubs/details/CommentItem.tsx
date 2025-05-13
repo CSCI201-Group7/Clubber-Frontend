@@ -6,6 +6,7 @@ import { getCommentsByParentCommentId, getUserById } from "@/utilities/getters";
 import Markdown from "react-markdown";
 import CommentForm from "./CommentForm";
 import { downvoteComment, getUserId, upvoteComment } from "@/utilities/Fetcher";
+import Link from "next/link";
 
 export default function CommentItem({ comment }: { comment: ClubComment }) {
     const [forceUpdate, setForceUpdate] = useState<boolean>(false);
@@ -93,7 +94,7 @@ export default function CommentItem({ comment }: { comment: ClubComment }) {
             bg-neutral-50 rounded-lg outline-2 outline-gray-300 hover:outline-usc-gold-light 
             transition-all duration-300">
             <div className="w-full h-fit flex flex-row justify-between items-center gap-2 p-1">
-                <div className="w-fit h-fit flex flex-row justify-start items-center gap-2">
+                <Link href={`/users/${author?.id}`} className="w-fit h-fit flex flex-row justify-start items-center gap-2">
                     <Image
                         className="w-8 h-8 rounded-full outline outline-gray-300 hover:outline-usc-gold-light
                     transition-all duration-300 hover:outline-2"
@@ -105,7 +106,7 @@ export default function CommentItem({ comment }: { comment: ClubComment }) {
                     <div className="w-fit h-fit text-gray-900 text-lg font-semibold font-roboto">
                         {authorName}
                     </div>
-                </div>
+                </Link>
                 <div className="w-fit h-fit text-gray-500 text-md font-roboto">
                     {createdAt}
                 </div>

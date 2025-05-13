@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ReviewCard({ review }: { review: Review }) {
     const router = useRouter();
@@ -91,17 +92,19 @@ export default function ReviewCard({ review }: { review: Review }) {
                         {title}
                     </div>
                     <div className="w-fit h-fit flex flex-row justify-start items-end gap-2">
-                        <Image
-                            className="w-6 h-6 rounded-full object-cover outline outline-gray-300
-                            hover:outline-usc-gold-light hover:outline-2 transition-all"
-                            src={authorProfileImage}
-                            alt={authorName}
-                            width={24}
-                            height={24}
-                        />
-                        <div className="text-md font-semibold text-gray-800">
-                            {authorName}
-                        </div>
+                        <Link href={`/users/${authorId}`} className="flex flex-row items-end gap-2">
+                            <Image
+                                className="w-6 h-6 rounded-full object-cover outline outline-gray-300
+                                hover:outline-usc-gold-light hover:outline-2 transition-all"
+                                src={authorProfileImage}
+                                alt={authorName}
+                                width={24}
+                                height={24}
+                            />
+                            <div className="text-md font-semibold text-gray-800">
+                                {authorName}
+                            </div>
+                        </Link>
                         <div className="text-sm text-gray-500">{date}</div>
                     </div>
                 </div>

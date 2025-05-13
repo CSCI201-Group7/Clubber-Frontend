@@ -28,6 +28,12 @@ export async function getUserId() {
     return userId.value;
 }
 
+export async function logout() {
+    const cookieStore = await cookies();
+    cookieStore.delete("token");
+    cookieStore.delete("userId");
+}
+
 export async function getUser(id: string) {
     try {
         const response = await fetcher.get(`/users/${id}`);
