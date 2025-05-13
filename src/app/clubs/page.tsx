@@ -34,23 +34,22 @@ export default function ClubsPage() {
     }, []);
 
     useEffect(() => {
-        if (token && userId) {
+        if (userId) {
             getClubsByUserId(userId).then((clubs) => {
                 if (clubs) {
                     setMyClubs(clubs);
                     setIsMyClubEmpty(clubs.length === 0);
                 }
             });
-
-            getAllClubs().then((clubs) => {
-                if (clubs) {
-                    setAllClubs(clubs);
-                    setIsAllClubEmpty(clubs.length === 0);
-                }
-            });
         } else {
             setIsLoading(false);
         }
+        getAllClubs().then((clubs) => {
+            if (clubs) {
+                setAllClubs(clubs);
+                setIsAllClubEmpty(clubs.length === 0);
+            }
+        });
     }, [token, userId]);
 
     return (
@@ -64,10 +63,12 @@ export default function ClubsPage() {
                     </div>
                 ) : (
                     <>
-                        <MyClubs
-                            myClubs={myClubs}
-                            isMyClubEmpty={isMyClubEmpty}
-                        />
+                        {myClubs.length > 0 && (
+                            <MyClubs
+                                myClubs={myClubs}
+                                isMyClubEmpty={isMyClubEmpty}
+                            />
+                        )}
                         <AllClubs
                             allClubs={allClubs}
                             isAllClubEmpty={isAllClubEmpty}

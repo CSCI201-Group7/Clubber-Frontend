@@ -217,7 +217,6 @@ function CreateReviewForm() {
 
     return (
         <div
-            onClick={() => setHidden(!hidden)}
             className={`w-full h-fit flex flex-col justify-start items-start bg-neutral-100 rounded-lg p-4
             hover:outline-usc-gold-light hover:outline-3 transition-all duration-300 
             hover:cursor-pointer hover:bg-white
@@ -225,7 +224,9 @@ function CreateReviewForm() {
             <div
                 className="w-full h-fit flex flex-col justify-start items-start gap-2
                 transition-all duration-500 ease-in-out">
-                <div className="w-full h-fit text-gray-900 text-xl font-bold font-roboto text-center">
+                <div
+                    onClick={() => setHidden(!hidden)}
+                    className="w-full h-fit text-gray-900 text-xl font-bold font-roboto text-center">
                     Write a Review?
                 </div>
                 <ReviewForm hidden={hidden} setHidden={setHidden} />
