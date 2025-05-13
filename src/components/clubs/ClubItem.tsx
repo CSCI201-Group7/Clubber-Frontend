@@ -50,14 +50,14 @@ export default function ClubItem({ club }: { club: Organization }) {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-full flex flex-col justify-start items-end gap-1 px-2">
-                    <div className="text-end text-gray-600 text-md font-base font-roboto">
+                <div className="w-full max-w-[150px] h-full flex flex-col justify-start items-end gap-1 px-2">
+                    <div className="w-full text-end text-gray-600 text-md font-base font-roboto">
                         {memberCount} members
                     </div>
-                    <div className="text-end text-gray-600 text-md font-base font-roboto">
+                    <div className="w-full text-end text-gray-600 text-md font-base font-roboto">
                         {reviewCount} reviews
                     </div>
-                    <div className="text-end text-gray-600 text-md font-base font-roboto">
+                    <div className="w-full text-end text-gray-600 text-md font-base font-roboto">
                         {eventCount} events
                     </div>
                 </div>
