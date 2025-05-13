@@ -36,6 +36,14 @@ export default function NavBar({
                         hover:bg-usc-cardinal-light">
                         Clubs
                     </Link>
+                    <Link
+                        href="/clubs/create"
+                        className="text-white hover:text-usc-gold-light transition-all 
+                        duration-200 text-xl font-bold outline outline-gray-300 
+                        hover:outline-usc-gold-light hover:outline-2 rounded-lg px-4 py-1
+                        hover:bg-usc-cardinal-light">
+                        Create
+                    </Link>
                 </nav>
             </div>
             {displayProfileCard && <ProfileCard />}
