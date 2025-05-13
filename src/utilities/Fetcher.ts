@@ -261,3 +261,25 @@ export async function createComment(
         return null;
     }
 }
+
+export async function updateUser(formData: FormData) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token || token.value === "") {
+        return null;
+    }
+
+    try {
+        const response = await fetcher.put(`/users`, formData, {
+            headers: {
+                Authorization: token.value,
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
